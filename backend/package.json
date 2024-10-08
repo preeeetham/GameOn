@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type":"module",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -9,5 +10,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.7.0"
+  }
 }
