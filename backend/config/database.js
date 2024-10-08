@@ -2,19 +2,19 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export default MongooseConnection = {
-    connectDB: async () => {
-        try {
-            await mongoose.connect(process.env.MONGODB_URI, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-                useFindAndModify: false,
-            });
-            console.log('Connected to MongoDB');
-        } catch (error) {
-            console.error('Error connecting to MongoDB:', error);
-        }
-    },
+export default MongoConnection = async () => {
+    try {
+        const connection = await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: false,
+        });
+        console.log("MongoDB Connected");
+        return connection;
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 
