@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ChevronDown, Grid, List, Star, Calendar } from 'lucide-react';
 
-const API_KEY = 'e2f574f13445467d9539b577eed62452';
+const API_KEY = 'YOU_API_KEY';
 const BASE_URL = 'https://api.rawg.io/api';
 
 const fetchGames = async (page = 1, pageSize = 20, ordering = '-relevance') => {
