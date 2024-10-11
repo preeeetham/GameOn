@@ -6,7 +6,7 @@ export default function Header() {
     <header className="bg-[#202020] py-4">
       <div className="container mx-auto px-4 flex items-center justify-between">
         <div className="flex items-center space-x-8">
-          <h1 className="text-3xl font-bold">RAWG</h1>
+          <h1 className="text-3xl font-bold">GAMEON</h1>
           <nav>
             <ul className="flex space-x-4">
               <li><a href="#" className="hover:text-gray-300">Home</a></li>

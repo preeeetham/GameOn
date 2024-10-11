@@ -6,9 +6,20 @@ export default function Sidebar() {
   const genres = ['Action', 'Adventure', 'RPG', 'Shooter', 'Puzzle']
 
   return (
-    <aside className="w-64 space-y-8">
+    <aside className="w-48 space-y-8">
       <div>
-        <h2 className="text-xl font-semibold mb-4">Platforms</h2>
+        <ul className="space-y-4 list-none mb-4">
+            <li>
+            <a href="#" className="hover:text-gray-300 text-xl font-bold">Home</a>
+            </li> 
+            {/* <li>
+            <a href="#" className="hover:text-gray-300 text-xl font-bold">Reviews</a>
+            </li>  */}
+            <li>
+            <a href="#" className="hover:text-gray-300 text-xl font-bold">New Releases</a>
+            </li>
+        </ul>
+
         <ul className="space-y-2">
           {platforms.map((platform) => (
             <li key={platform} className="flex items-center">

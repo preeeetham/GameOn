@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_KEY = '01df0ff999a04a9c8c63444889224b0f';
+
+const API_KEY = 'YOUR_API';
 const BASE_URL = '/api/api';
 
 const axiosInstance = axios.create({
@@ -9,16 +10,29 @@ const axiosInstance = axios.create({
     key: API_KEY,
   },
 });
+  // Assuming axiosInstance is correctly set up
 
 export const getGames = async (params = {}) => {
   try {
-    const response = await axiosInstance.get('/games', { params });
+    // Define default parameters for new and trending games
+    const defaultParams = {
+      dates: '2023-10-01,2024-10-01',  // Games released within this year
+      ordering: '-added',              // Trending games (ordered by most recently added)
+      page_size: 20,                   // Number of games per request (you can change this as needed)
+    };
+
+    // Merge default parameters with any custom params passed to the function
+    const finalParams = { ...defaultParams, ...params };
+
+    // Make the API request with the final parameters
+    const response = await axiosInstance.get('/games', { params: finalParams });
     return response.data;
   } catch (error) {
     console.error('Error fetching games:', error);
     throw error;
   }
 };
+
 
 export const getGameDetails = async (id) => {
   try {

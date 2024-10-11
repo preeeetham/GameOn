@@ -10,7 +10,8 @@ export default function App() {
       <main className="container mx-auto px-4 py-8 flex">
         <Sidebar />
         <div className="flex-1 ml-8">
-          <h1 className="text-4xl font-bold mb-8">New and trending</h1>
+          <h1 className="text-6xl font-bold mb-2">New and trending</h1>
+          <p className='mb-8'>Based on player counts and release date</p>
           <GameList />
         </div>
       </main>
