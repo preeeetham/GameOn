@@ -4,8 +4,6 @@ import Header from './components/Header.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import GameList from './components/GameList.jsx';
 
-
-
 export default function App() {
   return (
     <Auth0Provider
