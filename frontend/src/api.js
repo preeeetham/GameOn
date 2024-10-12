@@ -10,21 +10,15 @@ const axiosInstance = axios.create({
     key: API_KEY,
   },
 });
-  // Assuming axiosInstance is correctly set up
 
-export const getGames = async (params = {}) => {
+export const getTrendingGames = async (params = {}) => {
   try {
-    // Define default parameters for new and trending games
     const defaultParams = {
       dates: '2023-10-01,2024-10-01',  // Games released within this year
       ordering: '-added',              // Trending games (ordered by most recently added)
       page_size: 20,                   // Number of games per request (you can change this as needed)
     };
-
-    // Merge default parameters with any custom params passed to the function
     const finalParams = { ...defaultParams, ...params };
-
-    // Make the API request with the final parameters
     const response = await axiosInstance.get('/games', { params: finalParams });
     return response.data;
   } catch (error) {

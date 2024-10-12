@@ -12,9 +12,6 @@ export default function Sidebar() {
             <li>
             <a href="#" className="hover:text-gray-300 text-xl font-bold">Home</a>
             </li> 
-            {/* <li>
-            <a href="#" className="hover:text-gray-300 text-xl font-bold">Reviews</a>
-            </li>  */}
             <li>
             <a href="#" className="hover:text-gray-300 text-xl font-bold">New Releases</a>
             </li>

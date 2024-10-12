@@ -1,6 +1,8 @@
 import React from 'react'
 import { Star } from 'lucide-react'
 
+
+
 export default function GameCard({ game }) {
   return (
     <div className="bg-black rounded-lg overflow-hidden shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_5px_rgba(255,0,0,0.5)] hover:h-auto">
