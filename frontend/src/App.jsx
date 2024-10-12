@@ -1,12 +1,8 @@
 import React from 'react';
 import { Auth0Provider } from '@auth0/auth0-react';
 import Header from './components/Header.jsx';
-import Sidebar from './components/Slidebar.jsx';
+import Sidebar from './components/Sidebar.jsx';
 import GameList from './components/GameList.jsx';
-// import dotenv from 'dotenv';
-
-// dotenv.config();
-
 
 const domain = 'dev-ombsf612abmbnh4w.us.auth0.com'; 
 const clientId = 'R2BI8rjDg12HFKKAEe1fAjBOwYhEMVs6'; 

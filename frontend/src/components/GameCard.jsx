@@ -1,8 +1,6 @@
 import React from 'react'
 import { Star } from 'lucide-react'
 
-
-
 export default function GameCard({ game }) {
   return (
     <div className="bg-black rounded-lg overflow-hidden shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_5px_rgba(255,0,0,0.5)] hover:h-auto">
@@ -16,11 +14,11 @@ export default function GameCard({ game }) {
               </span>
             ))}
             {game.parent_platforms.length > 3 && (
-              <span className="text-xs bg-gray-700 rounded px-2 py-1">+</span>
+              <span className="text-xs bg-gray-700 rounded px-2 py-1">+{game.parent_platforms.length - 3}</span>
             )}
           </div>
           <div className="flex items-center">
-            <Star className="w-4 h-4 text-yellow-400 mr-1" />
+            <Star className="w-4 h-4 text-yellow-400 mr-1" aria-hidden="true" />
             <span className="text-sm">{game.rating.toFixed(1)}</span>
           </div>
         </div>

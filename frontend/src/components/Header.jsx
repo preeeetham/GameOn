@@ -4,7 +4,7 @@ import { LuGithub } from "react-icons/lu";
 import { useAuth0 } from '@auth0/auth0-react';
 
 const handleGithub = () => {
-  window.open("https://github.com/preeeetham/GameOn", "_blank");
+  window.open("https://github.com/preeeetham/GameOn", "_blank", "noopener,noreferrer");
 };
 
 export default function Header() {
@@ -23,7 +23,7 @@ export default function Header() {
               placeholder="Search games..."
               className="bg-[#3b3b3b] text-white rounded-full py-2 px-8 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" aria-hidden="true" />
           </div>
           {!isAuthenticated ? (
             <>
@@ -46,10 +46,10 @@ export default function Header() {
               </button>
             </>
           )}
-          <button onClick={handleGithub} className="p-2 hover:bg-[#3b3b3b] rounded-full">
+          <button onClick={handleGithub} className="p-2 hover:bg-[#3b3b3b] rounded-full" aria-label="GitHub Repository">
             <LuGithub size={20} />
           </button>
-          <button className="p-2 hover:bg-[#3b3b3b] rounded-full ">
+          <button className="p-2 hover:bg-[#3b3b3b] rounded-full" aria-label="User Profile">
             <User size={20} />
           </button>
         </div>

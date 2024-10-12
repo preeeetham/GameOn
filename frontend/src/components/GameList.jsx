@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import GameCard from './GameCard';
-import { getTrendingGames } from '../api';
+import { getTrendingGames } from '../api.js'; // Adjust this import path if needed
 import dayjs from 'dayjs';
 
 export default function GameList() {

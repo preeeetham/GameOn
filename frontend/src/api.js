@@ -1,40 +1,43 @@
 import axios from 'axios';
 
-
-const API_KEY = '01df0ff999a04a9c8c63444889224b0f';
-const BASE_URL = '/api/api';
+const API_URL ='http://localhost:8000/api';
 
 const axiosInstance = axios.create({
-  baseURL: BASE_URL,
-  params: {
-    key: API_KEY,
-  },
+  baseURL: API_URL,
 });
+
+const handleApiError = (error, customMessage) => {
+  console.error(customMessage, error);
+  if (error.response) {
+    throw new Error(`${customMessage}: ${error.response.data.message || error.response.statusText}`);
+  } else if (error.request) {
+    throw new Error(`${customMessage}: No response received from server`);
+  } else {
+    throw new Error(`${customMessage}: ${error.message}`);
+  }
+};
 
 export const getTrendingGames = async (params = {}) => {
   try {
     const defaultParams = {
-      dates: '2023-10-01,2024-10-01',  // Games released within this year
-      ordering: '-added',              // Trending games (ordered by most recently added)
-      page_size: 20,                   // Number of games per request (you can change this as needed)
+      dates: '2023-10-01,2024-10-01',
+      ordering: '-added',
+      page_size: 20,
     };
     const finalParams = { ...defaultParams, ...params };
     const response = await axiosInstance.get('/games', { params: finalParams });
     return response.data;
   } catch (error) {
-    console.error('Error fetching games:', error);
-    throw error;
+    handleApiError(error, 'Error fetching trending games');
   }
 };
-
 
 export const getGameDetails = async (id) => {
   try {
     const response = await axiosInstance.get(`/games/${id}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching game details:', error);
-    throw error;
+    handleApiError(error, `Error fetching game details for id ${id}`);
   }
 };
 

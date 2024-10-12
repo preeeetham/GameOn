@@ -7,16 +7,19 @@ export default function Sidebar() {
 
   return (
     <aside className="w-48 space-y-8">
-      <div>
+      <nav>
         <ul className="space-y-4 list-none mb-4">
-            <li>
+          <li>
             <a href="#" className="hover:text-gray-300 text-xl font-bold">Home</a>
-            </li> 
-            <li>
+          </li> 
+          <li>
             <a href="#" className="hover:text-gray-300 text-xl font-bold">New Releases</a>
-            </li>
+          </li>
         </ul>
+      </nav>
 
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Platforms</h2>
         <ul className="space-y-2">
           {platforms.map((platform) => (
             <li key={platform} className="flex items-center">
@@ -38,7 +41,7 @@ export default function Sidebar() {
         </ul>
       </div>
       <button className="flex items-center text-gray-400 hover:text-white">
-        Show more <ChevronDown className="ml-2" size={16} />
+        Show more <ChevronDown className="ml-2" size={16} aria-hidden="true" />
       </button>
     </aside>
   )
