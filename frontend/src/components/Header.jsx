@@ -1,20 +1,15 @@
-import React from 'react'
-import { Search,User,} from 'lucide-react'
+import React from 'react';
+import { Search, User } from 'lucide-react';
 import { LuGithub } from "react-icons/lu";
+import { useAuth0 } from '@auth0/auth0-react';
 
 const handleGithub = () => {
   window.open("https://github.com/preeeetham/GameOn", "_blank");
 };
 
-const handlelogin = () => {
-
-}
-
-const handleSignUp = () => {
-
-}
-
 export default function Header() {
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+
   return (
     <header className="bg-[#151515] py-4">
       <div className="container mx-auto px-4 flex items-center justify-between">
@@ -30,17 +25,28 @@ export default function Header() {
             />
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
-          <div>
-            <button className="font-semibold hover:underline hover:underline-offset-4">
-              LOG IN
-            </button>
-          </div>
-          <div>
-            <button className="font-semibold hover:underline hover:underline-offset-4">
-              SIGN UP
-            </button>
-          </div>
-          <button  onClick={handleGithub} className="p-2 hover:bg-[#3b3b3b] rounded-full">
+          {!isAuthenticated ? (
+            <>
+              <button 
+                onClick={() => loginWithRedirect({ connection: 'google-oauth2' })} 
+                className="font-semibold hover:underline hover:underline-offset-4">
+                LOG IN
+              </button>
+              <button 
+                onClick={() => loginWithRedirect({ connection: 'google-oauth2' })} 
+                className="font-semibold hover:underline hover:underline-offset-4">
+                SIGN UP
+              </button>
+            </>
+          ) : (
+            <>
+              <span className="text-white">{user.name}</span>
+              <button onClick={() => logout({ returnTo: window.location.origin })} className="font-semibold hover:underline hover:underline-offset-4">
+                LOG OUT
+              </button>
+            </>
+          )}
+          <button onClick={handleGithub} className="p-2 hover:bg-[#3b3b3b] rounded-full">
             <LuGithub size={20} />
           </button>
           <button className="p-2 hover:bg-[#3b3b3b] rounded-full ">
@@ -49,5 +55,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }

@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 export default function GameList() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState(getTrendingGames);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const fetchGames = async () => {
