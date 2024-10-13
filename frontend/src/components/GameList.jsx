@@ -78,7 +78,7 @@ export default function GameList() {
         </button>
         <button 
           onClick={() => setFilter('thisweek')}
-          className={`p-2 rounded whitespace-nowrap ${filter === 'thisweek' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'}`}
+          className={`p-2 rounded whitespace-nowrap ${filter === 'thisweek' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'}hover:bg-red-500 duration-300 transition-colors`}
         >
           This Week
         </button>

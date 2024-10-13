@@ -9,7 +9,7 @@ const GameCard = ({ game }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    if (isHovered && videoRef.current && game.trailer_url) {
+    if (isHovered && videoRef.current && game.movies) {
       videoRef.current.play().catch(error => console.error("Error playing video:", error));
     } else if (videoRef.current) {
       videoRef.current.pause();
@@ -41,6 +41,14 @@ const GameCard = ({ game }) => {
     });
   };
 
+  const handleOpenGameLink = () => {
+    const gameId = game.id; // Ensure gameId is derived from game object
+    const url = game.website || `https://store.steampowered.com/app/${gameId}`;
+    
+    // Attempt to open the game link
+    window.open(url, '_blank') || alert("Failed to open game link");
+  };
+
   const CompactCard = () => (
     <div 
       className="w-72 bg-zinc-900 text-white overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-[0_0_15px_5px_rgba(255,0,0,0.5)]"
@@ -48,10 +56,10 @@ const GameCard = ({ game }) => {
       onMouseLeave={handleMouseLeave}
     >
       <div className="relative h-36">
-        {game.trailer_url && isHovered ? (
+        {game.movies && isHovered ? (
           <video
             ref={videoRef}
-            src={game.trailer_url}
+            src={game.movies}
             className="w-full h-full object-cover"
             muted
             loop
@@ -160,18 +168,26 @@ const GameCard = ({ game }) => {
             <h3 className="text-lg font-semibold">Genres:</h3>
             <p>{game.genres.map(genre => genre.name).join(', ')}</p>
           </div>
-          {game.chart_position && (
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Chart Position:</h3>
-              <p>{game.chart_position}</p>
-            </div>
-          )}
-          {game.description && (
+          {/* <div>
             <div>
-              <h3 className="text-lg font-semibold mb-2">Description:</h3>
-              <p className="text-gray-300 whitespace-pre-wrap">{game.description}</p>
+              {game.description ? (
+                <p
+                  className="text-gray-300 whitespace-pre-wrap"
+                  dangerouslySetInnerHTML={{ __html: game.description }}
+                />
+              ) : (
+                <p className="text-gray-500 italic">Description not available</p>
+              )}
             </div>
-          )}
+          </div> */}
+          <div className="flex justify-end">
+            <button
+              onClick={handleOpenGameLink}
+              className="mt-4 bg-blue-600 text-white justify-center place-items-center px-4 py-2 rounded hover:bg-blue-700 transition duration-300"
+            >
+              View Game
+            </button>
+          </div>
         </div>
       </div>
     </div>
