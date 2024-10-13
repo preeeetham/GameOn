@@ -103,15 +103,31 @@ const GameCard = ({ game }) => {
   );
 
   const ExpandedCard = () => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm">
-      <div className="bg-zinc-900 text-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 z-10 bg-zinc-900">
-          <div className="relative">
-            <img 
-              src={game.background_image} 
-              alt={game.name} 
-              className="w-full h-64 object-cover"
-            />
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm overflow-y-auto"
+      onClick={handleCollapse}
+    >
+      <div 
+        className="bg-white bg-opacity-10 text-white rounded-3xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sticky top-0 z-10 bg-black bg-opacity-10 text-white ">
+          <div className="relative h-96">
+            <div className="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-2 p-2">
+              <img 
+                src={game.background_image} 
+                alt={game.name} 
+                className="col-span-2 row-span-2 w-full h-full object-cover rounded-2xl"
+              />
+              {game.short_screenshots && game.short_screenshots.slice(1, 6).map((screenshot, index) => (
+                <img 
+                  key={screenshot.id} 
+                  src={screenshot.image} 
+                  alt={`${game.name} screenshot ${index + 1}`} 
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+              ))}
+            </div>
             <button 
               onClick={handleCollapse}
               className="absolute top-4 left-4 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all duration-300"
@@ -132,7 +148,7 @@ const GameCard = ({ game }) => {
         <div className="p-6 space-y-6">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold">Platforms:</h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 ">
               {renderPlatformIcons(game.platforms)}
             </div>
           </div>
