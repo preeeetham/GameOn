@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import GameCard from './GameCard';
-import { getTrendingGames } from '../api.js'; // Adjust this import path if needed
+import { getTrendingGames } from '../api.js';
+import { useParams } from 'react-router-dom'; // Add this to read URL parameters
 import dayjs from 'dayjs';
 
 export default function GameList() {
+  const { filterParam } = useParams(); // Get filterParam from URL
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState(filterParam || ''); // Use URL parameter as initial filter
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -39,6 +41,10 @@ export default function GameList() {
 
     fetchGames();
   }, [filter]);
+
+  useEffect(() => {
+    setFilter(filterParam); // Update the filter when the route changes
+  }, [filterParam]);
 
   if (loading) {
     return (

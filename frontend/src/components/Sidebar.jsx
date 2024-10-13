@@ -1,19 +1,22 @@
-import React from 'react'
-import { ChevronDown } from 'lucide-react'
+import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link for navigation
+import { ChevronDown } from 'lucide-react';
 
 export default function Sidebar() {
-  const platforms = ['PC', 'PlayStation 4', 'Xbox One', 'Nintendo Switch']
-  const genres = ['Action', 'Adventure', 'RPG', 'Shooter', 'Puzzle']
+  const platforms = ['PC', 'PlayStation 4', 'Xbox One', 'Nintendo Switch'];
+  const genres = ['Action', 'Adventure', 'RPG', 'Shooter', 'Puzzle'];
 
   return (
     <aside className="w-48 space-y-8">
       <nav>
         <ul className="space-y-4 list-none mb-4">
           <li>
-            <a href="#" className="hover:text-gray-300 text-xl font-bold">Home</a>
+            {/* Navigate to home */}
+            <Link to="/" className="hover:text-gray-300 text-xl font-bold">Home</Link>
           </li> 
           <li>
-            <a href="#" className="hover:text-gray-300 text-xl font-bold">New Releases</a>
+            {/* Navigate to New Releases (thisweek filter) */}
+            <Link to="/games/thisweek" className="hover:text-gray-300 text-xl font-bold">New Releases</Link>
           </li>
         </ul>
       </nav>
@@ -44,5 +47,5 @@ export default function Sidebar() {
         Show more <ChevronDown className="ml-2" size={16} aria-hidden="true" />
       </button>
     </aside>
-  )
+  );
 }
