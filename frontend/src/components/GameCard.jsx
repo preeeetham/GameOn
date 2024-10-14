@@ -180,14 +180,14 @@ const GameCard = ({ game }) => {
               )}
             </div>
           </div> */}
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <button
               onClick={handleOpenGameLink}
               className="mt-4 bg-blue-600 text-white justify-center place-items-center px-4 py-2 rounded hover:bg-blue-700 transition duration-300"
             >
               View Game
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
