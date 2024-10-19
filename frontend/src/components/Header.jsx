@@ -1,20 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Search, User } from 'lucide-react';
 import { LuGithub } from "react-icons/lu";
-import { useAuth0 } from '@auth0/auth0-react';
 
 const handleGithub = () => {
   window.open("https://github.com/preeeetham/GameOn", "_blank", "noopener,noreferrer");
 };
 
-export default function Header() {
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-
+export default function Header({ isAuthenticated, user, logout }) {
   return (
     <header className="bg-[#151515] py-4">
       <div className="container mx-auto px-4 flex items-center justify-between">
         <div className="flex items-center m-2">
-          <a href="/" className="text-3xl font-bold">GAMEON</a>
+          <Link to="/" className="text-3xl font-bold">GAMEON</Link>
         </div>
         <div className="flex items-center space-x-4 flex-grow">
           <div className="relative flex-grow">
@@ -27,21 +25,13 @@ export default function Header() {
           </div>
           {!isAuthenticated ? (
             <>
-              <button 
-                onClick={() => loginWithRedirect({ connection: 'google-oauth2' })} 
-                className="font-semibold hover:underline hover:underline-offset-4">
-                LOG IN
-              </button>
-              <button 
-                onClick={() => loginWithRedirect({ connection: 'google-oauth2' })} 
-                className="font-semibold hover:underline hover:underline-offset-4">
-                SIGN UP
-              </button>
+              <Link to="/login" className="font-semibold hover:underline hover:underline-offset-4">LOG IN</Link>
+              <Link to="/signup" className="font-semibold hover:underline hover:underline-offset-4">SIGN UP</Link>
             </>
           ) : (
             <>
               <span className="text-white">{user.name}</span>
-              <button onClick={() => logout({ returnTo: window.location.origin })} className="font-semibold hover:underline hover:underline-offset-4">
+              <button onClick={logout} className="font-semibold hover:underline hover:underline-offset-4">
                 LOG OUT
               </button>
             </>
