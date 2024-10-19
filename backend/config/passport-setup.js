@@ -60,7 +60,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_SECRET,
-  callbackURL: 'http://localhost:8000/api/auth/github/callback',
+  callbackURL: 'http://localhost:5137',
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     // Check if user exists in the database

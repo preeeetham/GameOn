@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaGithub, FaGoogle } from 'react-icons/fa'; // Icons for GitHub and Google
+import { FaGithub, FaGoogle } from 'react-icons/fa';
+import axios from 'axios'; // Importing axios for API requests
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  // Determine the base URL dynamically
+  const baseURL = process.env.NODE_ENV === 'production' ? 'https://game-onn.vercel.com' : 'http://localhost:8000';
+
+  // Handle email/password login
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Simulate authentication success
-    console.log('Logged in successfully');
-    navigate('/');
+    try {
+      const response = await axios.post(`${baseURL}/api/auth/login`, { email, password }, { withCredentials: true });
+      console.log('Login successful:', response.data);
+      navigate('/'); // Redirect to homepage after login
+    } catch (error) {
+      console.error('Login failed:', error.response ? error.response.data : error.message);
+    }
   };
 
+  // Handle GitHub login
   const handleGithubLogin = () => {
-    // Simulate GitHub login
-    console.log('Logging in with GitHub');
-    // Redirect to dashboard after login
-    navigate('/');
+    window.location.href = `${baseURL}/v1/auth/github`; // Redirect to GitHub OAuth URL
   };
 
+  // Handle Google login
   const handleGoogleLogin = () => {
-    // Simulate Google login
-    console.log('Logging in with Google');
-    // Redirect to dashboard after login
-    navigate('/dashboard');
+    window.location.href = `${baseURL}/v1/auth/google`; // Redirect to Google OAuth URL
   };
 
   return (

@@ -42,8 +42,8 @@ mongoose.connect(process.env.MONGO_URI)
 
 // API Routes
 app.use('/api', routes);
-app.use('/api/auth', UserRouter);
-app.use('/v1/auth', authRoutes);
+app.use('/api/auth', UserRouter); //for normal login 
+app.use('/v1/auth', authRoutes);  // for google and github
 
 // Root route
 app.get('/', (req, res) => {
