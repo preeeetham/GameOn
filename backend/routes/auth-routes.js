@@ -20,4 +20,4 @@ authRouter.get('/github', passport.authenticate('github', { scope: ['user:email'
 
 authRouter.get('/github/callback', passport.authenticate('github', { failureRedirect: '/' }), redirectWithToken);
 
-module.exports = router;
+module.exports = authRouter;

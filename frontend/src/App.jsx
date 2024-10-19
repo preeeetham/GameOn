@@ -15,16 +15,22 @@ export default function App() {
           <Route
             path="/login"
             element={
-              <div className="flex justify-center items-center min-h-screen">
-                <Login />
+              <div className="flex justify-center items-center min-h-screen px-4">
+                {/* Added padding and a larger max-width to the card */}
+                <div className="bg-[#202020] rounded-lg shadow-lg w-96 max-w-lg">
+                  <Login />
+                </div>
               </div>
             }
           />
           <Route
             path="/signup"
             element={
-              <div className="flex justify-center items-center min-h-screen">
-                <Signup />
+              <div className="flex justify-center items-center min-h-screen px-2">
+                {/* Same adjustments for Signup */}
+                <div className="bg-[#202020]  rounded-lg shadow-lg w-96 max-w-lg">
+                  <Signup />
+                </div>
               </div>
             }
           />
