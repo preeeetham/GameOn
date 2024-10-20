@@ -26,7 +26,7 @@ const GameCard = ({ game }) => {
     PlayStation: <FaPlaystation />,
     Xbox: <FaXbox />,
     PC: <FaWindows />,
-    'Nintendo Switch': <SiNintendoswitch />,
+    Nintendo: <SiNintendoswitch />,
     macOS: <SiMacos />,
     Linux: <FaLinux />,
     iOS: <FaApple />,
@@ -34,20 +34,16 @@ const GameCard = ({ game }) => {
   };
 
   const renderPlatformIcons = (platforms) => {
-    if (!Array.isArray(platforms)) return null;
-    return platforms.map(platform => {
-      const icon = platformIcons[platform.platform.name];
-      return icon ? <span key={platform.platform.id} className="mr-2">{icon}</span> : null;
+    if (!Array.isArray(platforms)) return null;  
+    return game.parent_platforms.map(platform => {
+      const icon = platformIcons[platform.platform.name]; 
+      return icon ? (
+        <span key={platform.platform.id} className="mr-2" title={platform.platform.name}>
+          {icon}
+        </span>
+      ) : null;
     });
-  };
-
-  const handleOpenGameLink = () => {
-    const gameId = game.id; // Ensure gameId is derived from game object
-    const url = game.website || `https://store.steampowered.com/app/${gameId}`;
-    
-    // Attempt to open the game link
-    window.open(url, '_blank') || alert("Failed to open game link");
-  };
+  };  
 
   const CompactCard = () => (
     <div 
@@ -74,7 +70,7 @@ const GameCard = ({ game }) => {
         )}
       </div>
       <div className="p-4">
-        <div className="flex space-x-2 mb-2">
+        <div className="flex  mb-2">
           {renderPlatformIcons(game.platforms)}
         </div>
         <div className="flex justify-between items-center mb-2">
@@ -168,26 +164,13 @@ const GameCard = ({ game }) => {
             <h3 className="text-lg font-semibold">Genres:</h3>
             <p>{game.genres.map(genre => genre.name).join(', ')}</p>
           </div>
-          {/* <div>
-            <div>
-              {game.description ? (
-                <p
-                  className="text-gray-300 whitespace-pre-wrap"
-                  dangerouslySetInnerHTML={{ __html: game.description }}
-                />
-              ) : (
+          {game.description && game.description.trim() ? (
+                <p className="text-gray-300 whitespace-pre-wrap">
+                  {game.description.split(' ').slice(0, 10).join(' ')}{game.description.split(' ').length > 40 ? '...' : ''}
+                </p>
+                  ) : (
                 <p className="text-gray-500 italic">Description not available</p>
-              )}
-            </div>
-          </div> */}
-          {/* <div className="flex justify-end">
-            <button
-              onClick={handleOpenGameLink}
-              className="mt-4 bg-blue-600 text-white justify-center place-items-center px-4 py-2 rounded hover:bg-blue-700 transition duration-300"
-            >
-              View Game
-            </button>
-          </div> */}
+                )}
         </div>
       </div>
     </div>
