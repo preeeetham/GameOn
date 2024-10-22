@@ -140,7 +140,7 @@ router.get('/games/:id/screenshots', async (req, res) => {
 });
 
 // Fetch Game Trailers by Game ID
-router.get('/games/:id/trailers', async (req, res) => {
+router.get('/games/:id/movies', async (req, res) => {
   try {
     const { id } = req.params;
     const response = await axiosInstance.get(`/games/${id}/movies`);
