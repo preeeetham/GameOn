@@ -121,3 +121,8 @@ export const getGameTrailers = async (id) => {
     throw error;
   }
 };
+
+export const handlefetch(){
+
+};
+
