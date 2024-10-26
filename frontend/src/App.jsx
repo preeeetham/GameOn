@@ -1,60 +1,41 @@
-import React from 'react';
-import Header from './components/Header.jsx';
-import Sidebar from './components/Sidebar.jsx';
-import Dashboard from './components/Dashboard.jsx';
-import Login from './components/Login.jsx';
-import Signup from './components/Signup.jsx';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Dashboard from './components/Dashboard';
 
-export default function App() {
+const App = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetchUser(token);
+    }
+  }, []);
+
+  const fetchUser = async (token) => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/user', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUser(response.data);
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  };
+
   return (
-    <div className="bg-[#151515] text-white min-h-screen">
-      <BrowserRouter>
-        <Routes>
-          {/* Routes without Header and Sidebar */}
-          <Route
-            path="/login"
-            element={
-              <div className="flex justify-center items-center min-h-screen px-4">
-                {/* Added padding and a larger max-width to the card */}
-                <div className="bg-[#202020] rounded-lg shadow-lg w-96 max-w-lg">
-                  <Login />
-                </div>
-              </div>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <div className="flex justify-center items-center min-h-screen px-2">
-                {/* Same adjustments for Signup */}
-                <div className="bg-[#202020]  rounded-lg shadow-lg w-96 max-w-lg">
-                  <Signup />
-                </div>
-              </div>
-            }
-          />
-
-          {/* Routes with Header and Sidebar */}
-          <Route
-            path="/*"
-            element={
-              <div className="min-h-screen">
-                <Header />
-                <main className="container mx-auto px-4 py-8 flex">
-                  <Sidebar />
-                  <div className="flex-1 ml-8">
-                    <Routes>
-                      <Route path="/" element={<Dashboard />} />
-                      {/* Add more protected routes if needed */}
-                    </Routes>
-                  </div>
-                </main>
-              </div>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/signup" element={<Signup setUser={setUser} />} />
+        <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />} />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </Router>
   );
-}
+};
+
+export default App;

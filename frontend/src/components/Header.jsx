@@ -1,49 +1,143 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, User } from 'lucide-react';
-import { LuGithub } from "react-icons/lu";
+import { FaUser, FaSearch } from 'react-icons/fa';
 
-const handleGithub = () => {
-  window.open("https://github.com/preeeetham/GameOn", "_blank", "noopener,noreferrer");
-};
+const Header = ({ user, handleLogout }) => {
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-export default function Header({ isAuthenticated, user, logout }) {
+  useEffect(() => {
+    console.log('User state in Header:', user);
+  }, [user]);
+
+  // Generate a random color for avatar background
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  // Generate initials from user name
+  const getInitials = (name) => {
+    if (!name) return '';
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
-    <header className="bg-[#151515] py-4">
-      <div className="container mx-auto px-4 flex items-center justify-between">
-        <div className="flex items-center m-2">
-          <Link to="/" className="text-3xl font-bold">GAMEON</Link>
-        </div>
-        <div className="flex items-center space-x-4 flex-grow">
-          <div className="relative flex-grow">
+    <header className="bg-black bg-opacity-90 text-white p-4 border-b border-white/10">
+      <div className="container mx-auto flex justify-between items-center gap-4">
+        <Link to="/" className="bg-clip-text text-transparent bg-gradient-to-r font-bold text-4xl from-white to-blue-400 shrink-0">
+          GAMEON
+        </Link>
+
+        {/* Search Bar */}
+        <div className="flex-1 max-w-2xl">
+          <div className="relative">
             <input
               type="text"
-              placeholder="Search games..."
-              className="bg-[#3b3b3b] text-white rounded-full py-2 px-8 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search games, players, tournaments..."
+              className="w-full bg-white/10 text-white placeholder-white/50 px-4 py-2 pl-10 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition duration-300"
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" aria-hidden="true" />
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50" />
           </div>
-          {!isAuthenticated ? (
-            <>
-              <Link to="/login" className="font-semibold hover:underline hover:underline-offset-4">LOG IN</Link>
-              <Link to="/signup" className="font-semibold hover:underline hover:underline-offset-4">SIGN UP</Link>
-            </>
-          ) : (
-            <>
-              <span className="text-white">{user.name}</span>
-              <button onClick={logout} className="font-semibold hover:underline hover:underline-offset-4">
-                LOG OUT
-              </button>
-            </>
+        </div>
+
+        {/* User Profile Section */}
+        <div className="relative">
+          <button
+            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+            className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300 backdrop-blur-sm"
+          >
+            {user ? (
+              <>
+                <div 
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+                  style={{ backgroundColor: getRandomColor() }}
+                >
+                  {getInitials(user.name)}
+                </div>
+                <div className="text-left">
+                  <div className="text-sm font-medium text-white/90">{user.name}</div>
+                  <div className="text-xs text-white/60 truncate max-w-[120px]">{user.email}</div>
+                </div>
+              </>
+            ) : (
+              <>
+                <FaUser className="text-white/80" />
+                <span className="text-white/90">Guest</span>
+              </>
+            )}
+          </button>
+
+          {isUserMenuOpen && (
+            <div className="absolute right-0 mt-2 w-64 bg-black/95 rounded-lg shadow-xl py-2 border border-white/10 backdrop-blur-lg">
+              {user ? (
+                <>
+                  <div className="px-4 py-3 border-b border-white/10">
+                    <div className="flex items-center space-x-3">
+                      <div 
+                        className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold"
+                        style={{ backgroundColor: getRandomColor() }}
+                      >
+                        {getInitials(user.name)}
+                      </div>
+                      <div>
+                        <div className="font-medium text-white/90">{user.name}</div>
+                        <div className="text-sm text-white/60 truncate">{user.email}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition duration-200"
+                  >
+                    Profile Settings
+                  </Link>
+                  <Link
+                    to="/my-games"
+                    className="block px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition duration-200"
+                  >
+                    My Games
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-white/10 transition duration-200"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="block px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition duration-200"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="block px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition duration-200"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </div>
           )}
-          <button onClick={handleGithub} className="p-2 hover:bg-[#3b3b3b] rounded-full" aria-label="GitHub Repository">
-            <LuGithub size={20} />
-          </button>
-          <button className="p-2 hover:bg-[#3b3b3b] rounded-full" aria-label="User Profile">
-            <User size={20} />
-          </button>
         </div>
       </div>
     </header>
   );
-}
+};
+
+export default Header;

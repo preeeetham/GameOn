@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Star, ArrowLeft, Play } from 'lucide-react'; // Import Play icon
+import { Star, ArrowLeft, Play } from 'lucide-react';
 import { FaPlaystation, FaXbox, FaWindows, FaApple, FaLinux, FaAndroid } from "react-icons/fa";
 import { SiNintendoswitch, SiMacos } from "react-icons/si";
-import { getGameTrailers } from '../api.js';
+import axios from 'axios';
 
 const GameCard = ({ game }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -11,14 +11,15 @@ const GameCard = ({ game }) => {
   const [gameTrailerUrl, setGameTrailerUrl] = useState(null);
   const videoRef = useRef(null);
 
-  // Fetch game trailer based on game ID
+  // Keep all existing fetch and effect logic unchanged
   const fetchGameTrailer = async (gameId) => {
     try {
-      const trailers = await getGameTrailers(gameId);
+      const response = await axios.get(`http://localhost:8000/api/games/${gameId}/trailers`);
+      const trailers = response.data;
       if (trailers && trailers.length > 0) {
-        return trailers[0].data.max; // Return the highest quality trailer URL
+        return trailers[0].data.max;
       }
-      return null; // No trailers available
+      return null;
     } catch (error) {
       console.error('Error fetching game trailer:', error);
       return null;
@@ -34,7 +35,7 @@ const GameCard = ({ game }) => {
             setGameTrailerUrl(trailerUrl);
           }
         } catch (error) {
-          setVideoError(true); // Handle errors during fetching
+          setVideoError(true);
         }
       }
     };
@@ -63,7 +64,7 @@ const GameCard = ({ game }) => {
     return game.parent_platforms.map(platform => {
       const icon = platformIcons[platform.platform.name];
       return icon ? (
-        <span key={platform.platform.id} className="mr-2" title={platform.platform.name}>
+        <span key={platform.platform.id} className="mr-2 text-white/60" title={platform.platform.name}>
           {icon}
         </span>
       ) : null;
@@ -72,7 +73,9 @@ const GameCard = ({ game }) => {
 
   const CompactCard = () => (
     <div
-      className="w-72 bg-zinc-900 text-white overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-[0_0_15px_5px_rgba(255,0,0,0.5)]"
+      className="w-72 bg-black/40 border border-white/10 text-white/90 overflow-hidden rounded-lg 
+                 transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]
+                 backdrop-blur-sm"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -80,7 +83,7 @@ const GameCard = ({ game }) => {
         <img
           src={game.background_image}
           alt={game.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-90 transition-opacity duration-300 hover:opacity-100"
         />
       </div>
       <div className="p-4">
@@ -88,32 +91,31 @@ const GameCard = ({ game }) => {
           {renderPlatformIcons(game.platforms)}
         </div>
         <div className="flex justify-between items-center mb-2">
-          <h2 className="text-lg font-bold truncate mr-2 cursor-pointer hover:text-gray-400 transition-colors duration-300" onClick={handleExpand}>{game.name}</h2>
+          <h2 className="text-lg font-bold truncate mr-2 cursor-pointer hover:text-white/100 
+                       transition-colors duration-300" 
+              onClick={handleExpand}
+          >
+            {game.name}
+          </h2>
           <div className="flex items-center">
-            <Star className="w-4 h-4 text-yellow-400 mr-1" aria-hidden="true" />
+            <Star className="w-4 h-4 text-white/80 mr-1" />
             <span className="text-sm">{game.rating.toFixed(1)}</span>
           </div>
         </div>
         <div className={`overflow-hidden transition-all duration-300 ${isHovered ? 'max-h-40' : 'max-h-0'}`}>
-          <div className="text-sm text-gray-400 mt-2 space-y-1">
+          <div className="text-sm text-white/60 mt-2 space-y-1">
             <div className="flex justify-between">
               <span>Release date:</span>
-              <span className="text-white">{new Date(game.released).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+              <span className="text-white/80">{new Date(game.released).toLocaleDateString()}</span>
             </div>
-            <hr className="border-gray-600 my-2" />
+            <hr className="border-white/10 my-2" />
             <div className="flex justify-between">
               <span>Genres:</span>
-              <span className="text-white">
+              <span className="text-white/80">
                 {game.genres.slice(0, 2).map(genre => genre.name).join(', ')}
                 {game.genres.length > 2 && '...'}
               </span>
             </div>
-            {game.chart_position && (
-              <div className="flex justify-between">
-                <span>Chart:</span>
-                <span className="text-white">{game.chart_position}</span>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -122,14 +124,15 @@ const GameCard = ({ game }) => {
 
   const ExpandedCard = () => (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm overflow-y-auto"
       onClick={handleCollapse}
     >
       <div
-        className="bg-white bg-opacity-10 text-white rounded-3xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden"
+        className="bg-black/80 border border-white/10 text-white/90 rounded-3xl shadow-2xl 
+                   w-full max-w-3xl my-8 overflow-hidden backdrop-blur-sm"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 z-10 bg-black bg-opacity-10 text-white ">
+        <div className="sticky top-0 z-10">
           <div className="relative h-96">
             <div className="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-2 p-2">
               {gameTrailerUrl ? (
@@ -149,8 +152,8 @@ const GameCard = ({ game }) => {
                         videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
                       }
                     }}
-                    className="absolute bottom-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-all duration-300"
-                    title="Play Trailer"
+                    className="absolute bottom-2 right-2 bg-white/10 text-white p-2 rounded-full
+                             hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
                   >
                     <Play size={20} />
                   </button>
@@ -167,61 +170,51 @@ const GameCard = ({ game }) => {
                   key={screenshot.id}
                   src={screenshot.image}
                   alt={`${game.name} screenshot ${index + 1}`}
-                  className="w-full h-full object-cover rounded-2xl"
+                  className="w-full h-full object-cover rounded-2xl opacity-80 hover:opacity-100 
+                           transition-opacity duration-300"
                 />
               ))}
             </div>
-            {/* Close button */}
             <button
               onClick={handleCollapse}
-              className="absolute top-4 left-4 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all duration-300"
+              className="absolute top-4 left-4 bg-black/30 text-white/90 p-2 rounded-full
+                       hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
             >
               <ArrowLeft size={24} />
             </button>
           </div>
-          {/* Game details */}
-          <div className="p-6 border-b border-zinc-700">
+          <div className="p-6 border-b border-white/10">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">{game.name}</h2>
+              <h2 className="text-2xl font-bold text-white/90">{game.name}</h2>
               <div className="flex items-center">
-                <Star className="w-6 h-6 text-yellow-400 mr-2" aria-hidden="true" />
+                <Star className="w-6 h-6 text-white/80 mr-2" />
                 <span className="text-lg">{game.rating.toFixed(1)}</span>
               </div>
             </div>
           </div>
         </div>
-        {/* Additional information */}
         <div className="p-6 space-y-6">
-          {/* Platforms */}
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Platforms:</h3>
-            <div className="flex flex-wrap gap-2 ">
+            <h3 className="text-lg font-semibold text-white/80">Platforms:</h3>
+            <div className="flex flex-wrap gap-2 text-white/60">
               {renderPlatformIcons(game.platforms)}
             </div>
           </div>
-
-          {/* Release Date */}
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Release Date:</h3>
-            <p>{new Date(game.released).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+            <h3 className="text-lg font-semibold text-white/80">Release Date:</h3>
+            <p className="text-white/70">{new Date(game.released).toLocaleDateString()}</p>
           </div>
-
-          {/* Genres */}
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Genres:</h3>
-            <p>{game.genres.map(genre => genre.name).join(', ')}</p>
+            <h3 className="text-lg font-semibold text-white/80">Genres:</h3>
+            <p className="text-white/70">{game.genres.map(genre => genre.name).join(', ')}</p>
           </div>
-
-          {/* Description */}
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Description:</h3>
-            {/* Render raw HTML safely */}
+          <div>
+            <h3 className="text-lg font-semibold text-white/80 mb-2">Description:</h3>
             <p 
-              className="text-gray-400" 
+              className="text-white/70" 
               dangerouslySetInnerHTML={{ __html: game.description_raw }} 
             />
           </div>
-
         </div>
       </div>
     </div>
