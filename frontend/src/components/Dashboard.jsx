@@ -11,6 +11,11 @@ const Dashboard = ({ user, setUser }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('token'); // Clear token on logout
+  };
+
   const fetchGames = async (pageNumber = 1) => {
     try {
       setLoading(true);
@@ -30,7 +35,7 @@ const Dashboard = ({ user, setUser }) => {
           params.ordering = '-rating';
       }
 
-      const response = await axios.get('http://localhost:8000/api/games', { params });
+      const response = await axios.get('https://game-on-web.vercel.app/api/games', { params });
       const data = response.data;
       
       if (pageNumber === 1) {
@@ -72,7 +77,7 @@ const Dashboard = ({ user, setUser }) => {
 
   return (
     <div className="min-h-screen bg-black">
-      <Header user={user} setUser={setUser} />
+      <Header user={user} handleLogout={handleLogout} setUser={setUser} />
       <div className="flex">
         <Sidebar setFilter={setFilter} />
         <main className="flex-1 p-8">

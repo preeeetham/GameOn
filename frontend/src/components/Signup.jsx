@@ -12,7 +12,7 @@ const Signup = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/auth/register', { name, email, password });
+      const response = await axios.post('https://game-on-web.vercel.app/auth/register', { name, email, password });
       localStorage.setItem('token', response.data.token);
       setUser(response.data.user);
       navigate('/dashboard');
@@ -100,7 +100,7 @@ const Signup = ({ setUser }) => {
 
           <div className="mt-6 grid grid-cols-2 gap-4">
             <a
-              href="http://localhost:8000/auth/google"
+              href="https://game-on-web.vercel.app/auth/google"
               className="flex items-center justify-center px-4 py-3.5 border border-gray-800 
                          rounded-xl text-white hover:bg-black/50
                          transition duration-300 ease-in-out group"
@@ -109,7 +109,7 @@ const Signup = ({ setUser }) => {
               Google
             </a>
             <a
-              href="http://localhost:8000/auth/github"
+              href="https://game-on-web.vercel.app/auth/github"
               className="flex items-center justify-center px-4 py-3.5 border border-gray-800 
                          rounded-xl text-white hover:bg-black/50
                          transition duration-300 ease-in-out group"

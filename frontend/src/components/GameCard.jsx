@@ -14,7 +14,7 @@ const GameCard = ({ game }) => {
   // Keep all existing fetch and effect logic unchanged
   const fetchGameTrailer = async (gameId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/games/${gameId}/trailers`);
+      const response = await axios.get(`https://game-on-web.vercel.app/api/games/${gameId}/trailers`);
       const trailers = response.data;
       if (trailers && trailers.length > 0) {
         return trailers[0].data.max;
@@ -124,12 +124,12 @@ const GameCard = ({ game }) => {
 
   const ExpandedCard = () => (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-transparent backdrop-blur-sm overflow-y-auto"
       onClick={handleCollapse}
     >
       <div
-        className="bg-black/80 border border-white/10 text-white/90 rounded-3xl shadow-2xl 
-                   w-full max-w-3xl my-8 overflow-hidden backdrop-blur-sm"
+        className="bg-black/50 border border-white/10 text-white/90 rounded-3xl shadow-2xl 
+                   w-full max-w-3xl my-8 overflow-hidden backdrop-blur-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 z-10">
@@ -153,7 +153,7 @@ const GameCard = ({ game }) => {
                       }
                     }}
                     className="absolute bottom-2 right-2 bg-white/10 text-white p-2 rounded-full
-                             hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
+                             hover:bg-white/20 transition-all duration-300"
                   >
                     <Play size={20} />
                   </button>
@@ -178,7 +178,7 @@ const GameCard = ({ game }) => {
             <button
               onClick={handleCollapse}
               className="absolute top-4 left-4 bg-black/30 text-white/90 p-2 rounded-full
-                       hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
+                       hover:bg-white/10 transition-all duration-300"
             >
               <ArrowLeft size={24} />
             </button>
@@ -219,6 +219,9 @@ const GameCard = ({ game }) => {
       </div>
     </div>
   );
+  
+  
+  
 
   return isExpanded ? <ExpandedCard /> : <CompactCard />;
 };
