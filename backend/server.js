@@ -194,10 +194,14 @@ app.get('/api/user', async (req, res) => {
 // Game API routes
 app.get('/api/games', async (req, res) => {
   try {
+    const { search } = req.query; // Get the search parameter from the query string
     const { data } = await axios.get(`https://api.rawg.io/api/games`, {
       params: {
         key: RAWG_API_KEY,
-        ...req.query
+        // Check if there's a search query and include it in the request to RAWG API
+        page_size: 10, // Limit the number of results returned
+        // If search exists, use it to filter results
+        ...(search && { search }) 
       }
     });
     res.json(data);
