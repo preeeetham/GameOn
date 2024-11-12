@@ -28,11 +28,10 @@ const User = mongoose.model('User', new mongoose.Schema({
   githubId: String
 }));
 
-// Middleware
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors());
 app.use(express.json());
 app.use(session({ 
-  secret: 'your_session_secret', 
+  secret: process.env.JWT_SECRET, 
   resave: false, 
   saveUninitialized: false 
 }));
@@ -136,7 +135,7 @@ app.post('/auth/register', async (req, res) => {
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
     const token = jwt.sign({ id: user.id }, JWT_SECRET);
-    res.json({ token });
+    res.redirect(`http://localhost:5173/dashboard?token=${token}`)
   } catch (error) {
     res.status(500).json({ message: 'Error registering user' });
   }
@@ -154,7 +153,7 @@ app.post('/auth/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
     const token = jwt.sign({ id: user.id }, JWT_SECRET);
-    res.json({ token });
+    res.redirect(`http://localhost:5173/dashboard?token=${token}`)
   } catch (error) {
     res.status(500).json({ message: 'Error logging in' });
   }

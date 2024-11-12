@@ -20,7 +20,7 @@ const Dashboard = ({ user, setUser }) => {
     try {
       setLoading(true);
       let params = { page: pageNumber };
-      
+
       switch (filter) {
         case 'last30days':
           params.dates = `${new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]},${new Date().toISOString().split('T')[0]}`;
@@ -30,6 +30,15 @@ const Dashboard = ({ user, setUser }) => {
           break;
         case 'nextweek':
           params.dates = `${new Date().toISOString().split('T')[0]},${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}`;
+          break;
+        case 'action':
+          params.genres = 'action'; // Filter by genre
+          break;
+        case 'strategy':
+          params.genres = 'strategy'; // Filter by genre
+          break;
+        case 'adventure':
+          params.genres = 'adventure'; // Filter by genre
           break;
         default:
           params.ordering = '-rating';
@@ -70,6 +79,12 @@ const Dashboard = ({ user, setUser }) => {
         return 'TOP GAMES THIS WEEK';
       case 'nextweek':
         return 'UPCOMING GAMES NEXT WEEK';
+      case 'action':
+        return 'TOP ACTION GAMES';
+      case 'strategy':
+        return 'TOP STRATEGY GAMES';
+      case 'adventure':
+        return 'TOP ADVENTURE GAMES';
       default:
         return 'NEW AND TRENDING';
     }

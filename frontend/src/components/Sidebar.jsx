@@ -44,6 +44,33 @@ const Sidebar = ({ setFilter }) => {
             <span className="font-medium">Next Week</span>
           </div>
         </button>
+        <button
+          onClick={() => setFilter('action')}
+          className="w-full text-left py-3 px-6 rounded-lg text-gray-300 hover:text-white hover:bg-gray-900 transition-all duration-300 ease-in-out transform hover:translate-x-1 border border-transparent hover:border-gray-800"
+        >
+          <div className="flex items-center space-x-3">
+            <span className="text-lg">💥</span>
+            <span className="font-medium">Action</span>
+          </div>
+        </button>
+        <button
+          onClick={() => setFilter('strategy')}
+          className="w-full text-left py-3 px-6 rounded-lg text-gray-300 hover:text-white hover:bg-gray-900 transition-all duration-300 ease-in-out transform hover:translate-x-1 border border-transparent hover:border-gray-800"
+        >
+          <div className="flex items-center space-x-3">
+            <span className="text-lg">🛠️</span>
+            <span className="font-medium">Strategy</span>
+          </div>
+        </button>
+        <button
+          onClick={() => setFilter('adventure')}
+          className="w-full text-left py-3 px-6 rounded-lg text-gray-300 hover:text-white hover:bg-gray-900 transition-all duration-300 ease-in-out transform hover:translate-x-1 border border-transparent hover:border-gray-800"
+        >
+          <div className="flex items-center space-x-3">
+            <span className="text-lg">🌍</span>
+            <span className="font-medium">Adventure</span>
+          </div>
+        </button>
       </nav>
     </div>
   );

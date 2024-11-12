@@ -3,27 +3,13 @@ import { Link } from 'react-router-dom';
 import { FaUser, FaSearch } from 'react-icons/fa';
 
 const Header = ({ user, handleLogout }) => {
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     console.log('User state in Header:', user);
+    setIsLoggedIn(!!user);
   }, [user]);
-
-  // Generate a random color for avatar background
-  const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
-
-  const getInitials = (name) => {
-    if (!name) return '';
-    return name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
-  };
 
   return (
     <header className="bg-black bg-opacity-90 text-white p-4 border-b border-white/10">
@@ -41,54 +27,38 @@ const Header = ({ user, handleLogout }) => {
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50" />
           </div>
         </div>
-        <div className="relative">
-          <button
-            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-            className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300 backdrop-blur-sm"
-          >
-            {user ? (
-              <>
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: getRandomColor() }}>
-                  {getInitials(user.name)}
-                </div>
-                <div className="text-left">
-                  <div className="text-sm font-medium text-white/90">{user.name}</div>
-                  <div className="text-xs text-white/60 truncate max-w-[120px]">{user.email}</div>
-                </div>
-              </>
-            ) : (
-              <>
-                <FaUser className="text-white/80" />
-                <span className="text-white/90">Guest</span>
-              </>
-            )}
-          </button>
-          {isUserMenuOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-black/95 rounded-lg shadow-xl py-2 border border-white/10 backdrop-blur-lg">
-              {user ? (
-                <>
-                  <div className="px-4 py-3 border-b border-white/10">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold" style={{ backgroundColor: getRandomColor() }}>
-                        {getInitials(user.name)}
-                      </div>
-                      <div>
-                        <div className="font-medium text-white/90">{user.name}</div>
-                        <div className="text-sm text-white/60 truncate">{user.email}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <Link to="/profile" className="block px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition duration-200">Profile Settings</Link>
-                  <Link to="/my-games" className="block px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition duration-200">My Games</Link>
-                  <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-white/10 transition duration-200">Logout</button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className="block px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition duration-200">Login</Link>
-                  <Link to="/signup" className="block px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition duration-200">Sign Up</Link>
-                </>
-              )}
+        <div className="flex items-center space-x-2">
+          {isLoggedIn && user ? (
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: getRandomColor() }}>
+                {getInitials(user.name)}
+              </div>
+              <div className="text-left mr-4">
+                <div className="text-sm font-medium text-white/90">{user.name}</div>
+                <div className="text-xs text-white/60 truncate max-w-[120px]">{user.email}</div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition duration-300"
+              >
+                Logout
+              </button>
             </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full transition duration-300"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition duration-300"
+              >
+                Sign Up
+              </Link>
+            </>
           )}
         </div>
       </div>
