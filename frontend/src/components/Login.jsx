@@ -11,8 +11,8 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://game-on-web.vercel.app/auth/login', { email, password });
-      localStorage.setItem('token', response.data.token);
+      const response = await axios.post('https://game-on-web.vercel.app/auth/login', { email, password })
+      localStorage.setItem('token', response.data);
       setUser(response.data.user);
       navigate('/dashboard');
     } catch (error) {

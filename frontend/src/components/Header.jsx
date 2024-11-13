@@ -19,7 +19,7 @@ const Header = () => {
 
   const fetchUserData = async (token) => {
     try {
-      const response = await axios.get('https://game-on-web.vercel.app/api/user', {
+      const response = await axios.get('http://localhost:8000/api/user', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUser(response.data);

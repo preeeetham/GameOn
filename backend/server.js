@@ -113,7 +113,7 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
     const token = jwt.sign({ id: req.user.id }, JWT_SECRET);
-    res.redirect(`http://localhost:5173/dashboard?token=${token}`);
+    res.send(token);
   }
 );
 
@@ -123,7 +123,7 @@ app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
     const token = jwt.sign({ id: req.user.id }, JWT_SECRET);
-    res.redirect(`http://localhost:5173/dashboard?token=${token}`);
+    res.send(token)
   }
 );
 
@@ -135,7 +135,7 @@ app.post('/auth/register', async (req, res) => {
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
     const token = jwt.sign({ id: user.id }, JWT_SECRET);
-    res.redirect(`http://localhost:5173/dashboard?token=${token}`)
+    res.send(token)
   } catch (error) {
     res.status(500).json({ message: 'Error registering user' });
   }
@@ -153,7 +153,7 @@ app.post('/auth/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
     const token = jwt.sign({ id: user.id }, JWT_SECRET);
-    res.redirect(`http://localhost:5173/dashboard?token=${token}`)
+    res.send(token)
   } catch (error) {
     res.status(500).json({ message: 'Error logging in' });
   }

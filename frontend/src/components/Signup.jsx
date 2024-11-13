@@ -13,7 +13,7 @@ const Signup = ({ setUser }) => {
     e.preventDefault();
     try {
       const response = await axios.post('https://game-on-web.vercel.app/auth/register', { name, email, password });
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response.data);
       setUser(response.data.user);
       navigate('/dashboard');
     } catch (error) {
