@@ -212,7 +212,7 @@ const GameCard = ({ game }) => {
             <h3 className="text-lg font-semibold text-white/80 mb-2">Description:</h3>
             <p 
               className="text-white/70" 
-              dangerouslySetInnerHTML={{ __html: game.description_raw }} 
+              dangerouslySetInnerHTML={{ __html: game.description }} 
             />
           </div>
         </div>

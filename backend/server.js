@@ -127,16 +127,23 @@ app.get('/auth/github/callback',
   }
 );
 
-// Local auth routes
 app.post('/auth/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User with this email already exists' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
+
     const token = jwt.sign({ id: user.id }, JWT_SECRET);
-    res.redirect(`http://localhost:5173/dashboard?token=${token}`)
+    res.redirect(`http://localhost:5173/dashboard?token=${token}`);
   } catch (error) {
+    console.error('Error registering user:', error);
     res.status(500).json({ message: 'Error registering user' });
   }
 });
