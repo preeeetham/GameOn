@@ -175,14 +175,13 @@ app.get('/api/user', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
 app.get('/api/games', async (req, res) => {
   try {
-    const { search, page, genres } = req.query;
+    const { search, page, genres, dates, ordering } = req.query;
     
     const params = {
       key: RAWG_API_KEY,
-      page_size: 10, 
+      page_size: 10
     };
     if (page) {
       params.page = page;
@@ -193,11 +192,18 @@ app.get('/api/games', async (req, res) => {
     if (genres) {
       params.genres = genres;
     }
+    if (dates) {
+      params.dates = dates;
+    }
+    if (ordering) {
+      params.ordering = ordering;
+    }
 
     const { data } = await axios.get(`https://api.rawg.io/api/games`, { params });
     res.json(data);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching games' });
+    console.error('Error fetching games:', error);  
+    res.status(500).json({ error: 'Error fetching games' });
   }
 });
 
