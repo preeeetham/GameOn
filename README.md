@@ -20,12 +20,7 @@ git clone <your-repository-url>
 cd gameon
 ```
 
-2. Install backend dependencies
-```bash
-npm install
-```
-
-3. Create `.env` file in the root directory with the following configurations:
+2. Create `.env` file in the root directory with the following configurations:
 ```
 GOOGLE_CLIENT_ID=[REDACTED]
 GOOGLE_SECRET=[REDACTED]
@@ -37,12 +32,6 @@ MONGO_URI=[REDACTED]
 PORT=8000
 ```
 
-### Frontend Setup
-1. Navigate to frontend directory
-```bash
-cd frontend
-npm install
-```
 
 ### Running the Application
 
