@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUser, FaSearch } from 'react-icons/fa';
+import { FaUser, FaSearch, FaGithub } from 'react-icons/fa';
 import axios from 'axios';
 
 const Header = () => {
@@ -34,6 +34,9 @@ const Header = () => {
     setUser(null);
     navigate('/');
   };
+  const handlegithub = () => {
+    window.open("https://github.com/preeeetham/gameon", "_blank");
+  }
 
   const fetchSuggestions = async (query) => {
     if (!query || query.length < 3) {
@@ -106,7 +109,13 @@ const Header = () => {
             <div className="p-2 text-white">No suggestions found</div>
           )}
         </div>
+        
         <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-4">
+          <button onClick={handlegithub} className=" hover:bg-blue-600 text-white px-4 py-2 rounded-full transition duration-300">
+            <FaGithub />
+          </button>
+        </div>
           {user ? (
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: getRandomColor() }}>
@@ -114,7 +123,6 @@ const Header = () => {
               </div>
               <div className="text-left mr-4">
                 <div className="text-xl font-semibold text-white/90">Welcome!! {user.name}</div>
-                {/* <div className="text-xs text-white/60 truncate max-w-[120px]">{user.email}</div> */}
               </div>
               <button
                 onClick={handleLogout}
@@ -127,7 +135,7 @@ const Header = () => {
             <>
               <Link
                 to="/login"
-                className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full transition duration-300"
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition duration-300"
               >
                 Login
               </Link>
@@ -140,6 +148,7 @@ const Header = () => {
             </>
           )}
         </div>
+      
       </div>
     </header>
   );
