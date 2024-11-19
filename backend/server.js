@@ -14,12 +14,9 @@ dotenv.config();
  
 const app = express();
 const port = 8000;
-
-// MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
-// User model
 const User = mongoose.model('User', new mongoose.Schema({
   name: String,
   email: String,
@@ -38,13 +35,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// RAWG API key
 const RAWG_API_KEY = process.env.API_KEY;
 
-// JWT secret
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Passport configuration
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -58,7 +52,6 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// Google Strategy
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_SECRET,
@@ -82,7 +75,6 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-// GitHub Strategy
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_SECRET,
@@ -100,13 +92,12 @@ passport.use(new GitHubStrategy({
         await user.save();
       }
       return done(null, user);
-    } catch (error) {
+    } catch (error) { 
       return done(error, null);
     }
   }
 ));
 
-// Auth routes
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/auth/google/callback', 
@@ -127,7 +118,6 @@ app.get('/auth/github/callback',
   }
 );
 
-// Local auth routes
 app.post('/auth/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -159,7 +149,6 @@ app.post('/auth/login', async (req, res) => {
   }
 });
 
-// User route
 app.get('/api/user', async (req, res) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
@@ -173,12 +162,10 @@ app.get('/api/user', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Send more detailed user information
     res.json({
       id: user._id,
       name: user.name,
       email: user.email,
-      // Add any other relevant user information here
     });
   } catch (error) {
     console.error('Error in /api/user route:', error);
@@ -189,21 +176,25 @@ app.get('/api/user', async (req, res) => {
   }
 });
 
-
-
-// Game API routes
 app.get('/api/games', async (req, res) => {
   try {
-    const { search } = req.query; // Get the search parameter from the query string
-    const { data } = await axios.get(`https://api.rawg.io/api/games`, {
-      params: {
-        key: RAWG_API_KEY,
-        // Check if there's a search query and include it in the request to RAWG API
-        page_size: 10, // Limit the number of results returned
-        // If search exists, use it to filter results
-        ...(search && { search }) 
-      }
-    });
+    const { search, page, genres } = req.query;
+    
+    const params = {
+      key: RAWG_API_KEY,
+      page_size: 10, 
+    };
+    if (page) {
+      params.page = page;
+    }
+    if (search) {
+      params.search = search;
+    }
+    if (genres) {
+      params.genres = genres;
+    }
+
+    const { data } = await axios.get(`https://api.rawg.io/api/games`, { params });
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching games' });
