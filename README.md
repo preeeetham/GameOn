@@ -17,7 +17,7 @@ Gameon is a comprehensive game catalogue web application powered by the RAWG API
 1. Clone the repository
 ```bash
 git clone <your-repository-url>
-cd game-catalogue-app
+cd gameon
 ```
 
 2. Install backend dependencies
@@ -49,21 +49,14 @@ npm install
 #### Development Mode
 ```bash
 # Backend
-npm run dev
+cd backend
+npm install 
+node server.js
 
 # Frontend
 cd frontend
+npm install
 npm run dev
-```
-
-#### Production Build
-```bash
-# Backend Build
-npm run build
-
-# Frontend Build
-cd frontend
-npm run build
 ```
 
 ## Technologies Used
