@@ -25,7 +25,12 @@ const User = mongoose.model('User', new mongoose.Schema({
   githubId: String
 }));
 
-app.use(cors());
+app.use(cors(
+  {
+    origin: 'https://gameoon.vercel.app',
+    credentials: true
+  }
+));
 app.use(express.json());
 app.use(session({ 
   secret: process.env.JWT_SECRET, 
