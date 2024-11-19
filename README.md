@@ -1,4 +1,4 @@
-# Gameoon 🎮 - Game Catalogue Web Application
+# GameoOn 🎮 - Game Catalogue Web Application
 
 ## Overview
 Gameon is a comprehensive game catalogue web application powered by the RAWG API, built using the MERN (MongoDB, Express, React, Node.js) stack.
