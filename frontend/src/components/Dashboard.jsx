@@ -41,7 +41,9 @@ const Dashboard = ({ user, setUser }) => {
           params.genres = 'adventure'; // Filter by genre
           break;
         default:
-          params.ordering = '-rating';
+          const today = new Date();
+          const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+          params.dates = `${lastMonth.toISOString().split('T')[0]},${today.toISOString().split('T')[0]}`;
       }
 
       const response = await axios.get('https://game-on-web.vercel.app/api/games', { params });
