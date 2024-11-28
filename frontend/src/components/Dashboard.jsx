@@ -41,7 +41,7 @@ const Dashboard = ({ user, setUser }) => {
           params.genres = 'adventure'; // Filter by genre
           break;
         default:
-          params.genres = 'puzzle'; // Filter by all genres
+          params.ordering = '-rating'; // Filter by all genres
       }
 
       const response = await axios.get('https://game-on-web.vercel.app/api/games', { params });
